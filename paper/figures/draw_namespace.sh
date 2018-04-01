@@ -12,5 +12,5 @@ docker run -it --rm \
   --privileged \
   --entrypoint=/bin/bash \
   michaelsevilla/plfs \
-  -c "dot -Tpng -o output.png input.dot"
+  -c "dot -Tpng -o expdir.png input.dot"
 

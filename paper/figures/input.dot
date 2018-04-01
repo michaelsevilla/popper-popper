@@ -13,6 +13,9 @@ digraph G {
   "baseline/" -> "hosts";
   "baseline/" -> "run.sh";
   "baseline/" -> "vars.yml";
-  "run.sh" -> "ansible-roles/";
+  "run.sh" -> "ansible-roles/" [style="dashed"];
   "run.sh" -> "docker-images/" [style="dashed"];
+  "run.sh" -> "ansible/" [style="dashed"];
+  "run.sh" -> "hosts" [style="dashed"];
+  "run.sh" -> "vars.yml" [style="dashed"];
 }

@@ -65,11 +65,24 @@ less dependent on Python. To run an experiment, users log in into the head node
 and clone the ceph-popper-template. This repository has submodules that point
 to ceph-ansible and our own custom roles; configuration files for our Ceph
 setup; and helper scripts written in bash that deploy Ceph and run the
-benchmarks. For more information, see the
+benchmarks. An outline of this organization is shown in
+Figure~\ref{fig:expdir}.  For more information, see the
 \href{https://github.com/michaelsevilla/ceph-popper-template}{README}. For more
 information on the baseline and pipelines terminology, read more on the
 \href{http://falsifiable.us/}{Popper Convention}. Then users configure their
 cluster by specificing IPs and user names in the \texttt{hosts} file. 
+
+\begin{figure}[tb] 
+  \centering
+  \includegraphics[width=1\linewidth]{./figures/expdir.png}
+  \caption{Organization of our experiment directories. \texttt{baseline/} is an
+example experiment and contains scripts populated with the Popper CLI. The
+\texttt{run.sh} script uses many directories and files to setup and run
+experiments, as indicated by the dashed lines.}
+  \label{fig:expdir}
+\end{figure}
+
+
 
 Finally, users specify the Ceph services that should be deployed using the
 \href{https://github.com/michaelsevilla/ceph-popper-template/tree/master/pipelines/baseline/ansible}{\texttt{ansible/}}
@@ -95,7 +108,6 @@ change the Ansible \texttt{group\_vars/all} file. We also need to specify the
 Docker image. These can be specified in each configuration file for the daemon
 but for simplicity we put everything in the global variable file. Finally,
 users run the \texttt{run.sh} script. 
-
 
 %% describe paper repository
 %As an example, we use our Cudele publication~\cite{sevilla:ipdps18-cudele}. 
@@ -135,33 +147,91 @@ users run the \texttt{run.sh} script.
 
 % degrees of popperization
 
-\section{Reproducibility Must Be a 1st Class Citizen}
+\section{Popper Best Practices}
+
+To produce Popper-compliant papers, we needed to change our workflows and
+experimental procedures. We have learned the following lessons:
+
+\subsection{Reproducibility Must Be a 1st Class Citizen}
+
 % exploration vs. complete
+Popper-compliance must be observed {\it throughout} the paper-writing process.
+Attempts to make published papers Popper-compliant failed for three reasons:
+(1) there is no incentive from the perspective of a graduate student, (2) it is
+too hard to remember the experimental workflow, and (3) the artifacts cannot be
+added to the camera-ready article. This introduces a careful design decision:
+how does the user decide which results are exploratory and which are complete;
+we do not want to waste space by saving results that do not contribute to the
+paper but, at the same time, how do we know when an experiment is worthy of
+being included in the paper? Discipline must be exercised throughout the paper-writing
+process to make any experiment that we find useful must be immediately polished
+to be Popper-compliant.
+
 % cross-cluster compatibility 
-%  - inventory files hard coded throughout tree
-%  - configuration files not propagated for experiments
-%  - visualize files pulled data from hard coded paths
-%  - graphs not created automatically
-% why Mantle failed
+Another pitfall we face is cross-cluster compatibility. After identifying
+results as being useful, we usually find inventory files hard-coded throughout
+the tree, configuration files randomly propagated to different directories,
+visualization files reliant on data specified with hard-coded paths, and graphs
+are not created automatically. To address this, we must exercise discipline to
+separate cluster-specific files from cluster-agnostic files; we do this with
+\texttt{configs\_*/} directories in our ceph-popper-template repository.
 
-\section{Organized Repositories and Documentation}
-%cause the most work
-% role of git
-% docker images saved in internal registry (buildding)
+% organized repos/docs
+Finally, organization and documentation must be required throughout the
+paper-writing process. We fail to do this in early papers and this causes the
+most work later on. System and experiment deploy code is rarely
+self-explanatory. At a minimum, each experiment directory must contain a README
+specifying how to run the jobs. To address this, we recommend relying heavily
+on DockerHub, GitHub, and collaboration; making things public incentives
+tidiness and organization. Using internal Docker or Git repositories hampers
+Popper-compliance and discourages community involvement.
 
-\section{Well-Defined Collaboration Roles}
-% keeping organization
-% workflows
+\subsection{Well-Defined Collaboration Roles}
 
-\section{Maintaining Pointers}
-% wary of ephemeral links
+% keeping organization workflows
+Collaboration obviously speeds up code development and, As stated in the
+previous section, collaboration can be used as motivation to keeping
+Popper-compliant repositories; but collaboration can also hamper the process.
+Researchers have different workflows and preferences. Committing system and
+experimental deploy code with different toolkits, documentation, and styles to
+the same repository results can result in a confusing organizational structure.
+To address this, we recommend that the first author of the paper (1) produce a
+style guide, either by committing a couple of experiments or adding detailed
+READMEs and (2) act as the gatekeeper for all code. We recommend using GitHub
+because it nicely formats READMEs and supports pull requests, issue trackers,
+and project boards. Rather than having meetings to agree on experiment
+organization, we recommend iteratively combining code from collaborators with
+pull requests so the repository grows organically and quickly in the style
+approved by the first author.
 
-% large code bases large code bases (src, deploy)
+% merge conflicts
+Another obstacle of collaboration is merge conflicts, especially when editing
+the paper. We used to assign locks to people, in an {\it ad hoc} fashion over
+email; this is not scalable. Instead, we now use Git to manage conflicts.
+Before issuing a pull request, which notifies the first author, GitHub will
+notify committers of changes they made in parallel with other changes. Our
+policy is to force committers to resolve these merge conflicts before bothering
+the first the author. While we still recommend issuing pull requests to make
+sure the first author approves of the style, the merge conflicts workflow has
+been an effective way to avoid annoying the first author with destructive
+changes.
 
-% different registry hubs (Docker, GitHub)
+\subsection{Maintaining Pointers}
 
-\section{Conference Requirements}
+\begin{itemize}
+  \item wary of ephemeral links
+
+  \item large code bases large code bases (src, deploy)
+
+  \item different registry hubs (Docker, GitHub)
+\end{itemize}
+
+\section{Community Cooperation}
+
+\subsection{Conference Requirements}
 % double blinded??
+
+\subsection{Industry/Laboratory Requirements}
 % private systems?
 
 \section{Conclusion}
