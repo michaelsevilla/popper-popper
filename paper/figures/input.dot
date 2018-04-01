@@ -1,0 +1,18 @@
+digraph G {
+  "ceph-popper-template/" -> "hardware/";
+  "hardware/" -> "cloudlab";
+  "ceph-popper-template/" -> "software/";
+  "software/" -> "ansible-roles/";
+  "software/" -> "docker-images/";
+  "ceph-popper-template/" -> "pipelines/";
+  "pipelines/" -> "baseline/";
+  "pipelines/" -> "jupyter.sh";
+  "baseline/" -> "ansible/";
+  "baseline/" -> "results/";
+  "baseline/" -> "visualize/";
+  "baseline/" -> "hosts";
+  "baseline/" -> "run.sh";
+  "baseline/" -> "vars.yml";
+  "run.sh" -> "ansible-roles/";
+  "run.sh" -> "docker-images/" [style="dashed"];
+}
