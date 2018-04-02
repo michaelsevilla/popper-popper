@@ -218,20 +218,61 @@ changes.
 
 \subsection{Maintaining Pointers}
 
-\begin{itemize}
-  \item wary of ephemeral links
+Popper-compliant papers provide pointers to graph artifacts, including results,
+input files, and deploy code. But these links are problematic because they must
+be maintained over time, even years after the paper is published. We have had
+trouble maintaining these pointers because they (1) are ephemeral, (2) include
+pointers to other repositories, and (3) include pointers to different
+repository hosting sites.
 
-  \item large code bases large code bases (src, deploy)
+%wary of ephemeral links
+Ephemeral links and making sure that pointers are live is our biggest pain
+point. Small, seemingly benign changes end up confusing users wanting to
+reproduce our code. This is an artifact of how the internet was built, but
+making sure that these links are live is one of the hardest challenges for
+Popper-compliancy. To combat this, we suggest maintaining continuous
+integration pipelines that read the paper source code and send REST requests to
+websites to ensure that 404 codes are not returned.
 
-  \item different registry hubs (Docker, GitHub)
-\end{itemize}
+%large code bases large code bases (src, deploy)
+Pointers to other repositories can make the Popper-compliant repository
+confusing and difficult to navigate. For example, our Cudele paper had Git
+submodule pointers to 3 other GitHub repositories: one for Ansible deployment
+code for Ceph, one for Ansible deployment code for monitoring code written by
+our research lab, and one for our paper bibliography. Users unfamiliar with
+Ansible or \LaTeX would have trouble understanding navigating large code bases;
+but this practice is necessary to avoid duplicating functionality and ensuring
+future-proof modules. Our recommendation for addressing this problem is
+minimize the number of repository pointers and to document them thoroughly,
+including the reasons that the pointer is necessary and what the other
+repository does.
+
+%different registry hubs (Docker, GitHub)
+Finally, pointers to different repository sites can make Popper-compliant
+papers difficult to understand. Again, this is a necessary evil because
+research systems can be large and complicated with many moving parts. For
+example, our Cudele paper uses a GitHub repository to maintain our source code
+for our modified Ceph version, a GitHub repository to maintain our paper and
+deploy code, a GitHub repository to maintain our common deploy code modules
+(for monitoring), a DockerHub repository for housing software images with
+compiled binaries for our source code of our modified Ceph version, and a
+CloudLab repository to house our base images. Again, the recommended solution
+for maintaining this complicated web of registry hubs is to thoroughly document
+the process.
+
 
 \section{Community Cooperation}
 
 \subsection{Conference Requirements}
-% double blinded??
+% double blinded; in fact, we should expose reviewer names to further communication
+% clear definition of reproducibility, replicability, and open source
+% multiple revision rounds
+% reducing the shame of quick experimental results
 
 \subsection{Industry/Laboratory Requirements}
-% private systems?
+% private/propriety systems --> open architectures
+% support from upper level management for this process
+% moving away from quick money grabs; follow the open source model to write good code
+% single repository hubs per organization; no password protections!
 
 \section{Conclusion}
