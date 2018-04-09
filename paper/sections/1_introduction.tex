@@ -1,26 +1,92 @@
 \section{Introduction}
 
-\section{Popper-compliant Papers}
+% Reproducibility is more important than it is hard
+The importance of reproducibility outweighs its difficulty. While wrestling with
+large amounts of data, millions of lines of code, and diverse developer groups, it
+is extremely  hard to remember to make workflows understandable, let alone
+reproducible. But our research group has found  that the benefits of
+reproducibility, from a research, educational, and productivity standpoint,
+make the pain points worth it. After all, the scientific method requires such
+practices to do science and other fields have been emphasizing the
+reproducibility of experimental results for {\it centuries}; it is about time
+that the field of computer systems change its {\it ad-hoc} workflows to be more
+reproducible.
 
-% what papers have we done
-We have authored five Popper-compliant papers:
+% Not incentivized
+Once we adopted this philosophy, the road to reproducible research and paper
+artifacts was not smooth.  We use the Popper
+convention~\cite{jimenez:ipdpsw17-popper} because of its focus on open-source
+cluster management toolkits. We have produced four Popper-compliant papers, as
+shown in Table~\ref{table:papers}. We also note the status of the
+Popper-compliance, where GOLD means that results are fully reproducible, PASS
+means the experiments will run, and FAIL means that experiments are not
+guaranteed to execute~\cite{jimenez:rr18-popper}. A FAIL status is still
+Popper-compliant because experiment artifacts and results are available.
+
+\begin{table}[t]
+\centering
+\normalsize
+\begin{tabular}{ >{}m{2.8in} | c }
+\multicolumn{1}{c|}{Paper [Reference]} & Status \\ \hline
+&\\
+Malacology: A Programmable Storage System~\cite{sevilla:eurosys17-malacology} & PASS\\ 
+&\\\hdashline
+&\\
+Cudele: An API and Framework for Programmable Consistency and Durability in a Global Namespace~\cite{sevilla:ipdps18-cudele} & GOLD \\
+&\\\hdashline
+&\\
+Programmable Caches with a Data Management Language \& Policy Engine~\cite{sevilla:ccgrid18-parsplice} & FAIL \\
+&\\\hdashline
+&\\
+Tintenfisch: File System Namespace Schemas and Generators~\cite{sevilla:techreport18-tintenfisch} & GOLD \\
+\end{tabular}
+
+\caption{Papers following the Popper Convention. The statuses are
+from~\cite{jimenez:rr18-popper}, where PASS means experiments run, GOLD means
+results are reproducible, and FAIL means experiment artifacts are available
+(but may not run). Over time, our Popper-compliance has improved, except for
+the work we did in~\cite{sevilla:ccgrid18-parsplice}, which faced security
+obstacles (see Section~\S\ref{sec:reqs}).}
+
+\label{table:papers}
+\end{table}
+
+% Contributions
+While our experience with these state-of-the-art
+devops tools have been delightfully straightforward, which is no doubt a
+testament to the importance of reproducibility in real, large-scale clusters,
+our struggle composing these tools together in a coherent way has been the real
+challenge.  From designing workflows with these tools, we have developed a list
+of pitfalls that wasted time and effort. Our contributions are as follows:
+
 \begin{itemize}
 
-\item quiho: Automated Performance Regression Testing Using Inferred
-Resource Utilization Profiles~\cite{}
+  \item the structure and workflow of some of our Popper-compliant papers,
+using a baseline template designed for the Ceph~\cite{weil:osdi2006-ceph}
+storage system (Section~\S\ref{sec:popper-compliant-papers}).
 
-\item Cudele: An API and Framework for Programmable Consistency and
-Durability in a Global Namespace~\cite{sevilla:ipdps18-cudele}
+  \item three pitfalls for Popper-compliant papers that severely limited
+productivity in early papers; designing best practices that address these
+pitfalls before starting the project saved us time and effort in subsequent
+Popper-compliant papers (Section~\S\ref{popper-best-practices}).
 
-\item Malacology: A Programmable Storage
-System~\cite{sevilla:eurosys17-malacology}
-
-\item Characterizing and Reducing Cross-Platform Performance Using
-OS-level Virtualization
-
-\item Programmable Caches with a Data Management Language \& Policy Engine
+  \item a call to arms for the downfall of practices that fly in the face of
+Popper-compliance. We highlight difficulties with academic conferences, work at
+national laboratories, and work in industry because that is where we have the
+most experience (Section~\S\ref{sec:community-cooperation}).
 
 \end{itemize}
+
+Over time, our Popper status has improved from PASS to GOLD. The FAIL status
+can be attributed to security issues working at a national laboratory, as
+described in more detail in Section~\S\ref{sec:reqs}. We also note that going
+back and making published papers Popper-compliant is too difficult and is not
+incentivized, as described in Section~\S\ref{sec:repro}. It is our hope that
+the pitfalls stumbled over can be used as a best practices guide for future
+articles.
+
+\section{Popper-compliant Papers}
+\label{sec:popper-compliant-papers}
 
 We use the reader/reviewer sample workflow outlined
 in~\cite{jimenez:ipdpsw17-popper} and shown in Figure~\ref{fig:workflow}. For
@@ -49,17 +115,17 @@ and CloudLab; and for (4) - the data set component - we use GitHub.}
 
 Our experiments start with a baseline; to describe the process, we reference
 our
-\href{https://github.com/michaelsevilla/ceph-popper-template}{ceph-popper-template}
+ceph-popper-template\footnote{https://github.com/michaelsevilla/ceph-popper-template}
 set up on CloudLab. Users setup SSH keys and deploy CloudLab nodes using our
-\href{https://www.cloudlab.us/p/CephFS/CephFS-HEP}{CephFS Profile}.  The
+CephFS Profile \footnote{https://www.cloudlab.us/p/CephFS/CephFS-HEP}.  The
 profile has the nodes automatically install Docker on bootup using our
-\href{https://github.com/michaelsevilla/ceph-popper-template/blob/master/hardware/cloudlab/install.sh}{install}
-script. After the nodes finish booting (i.e.  their status on the CloudLab GUI
-read as READY), users push SSH keys using a convenience
-\href{https://raw.githubusercontent.com/michaelsevilla/ceph-popper-template/master/hardware/cloudlab/pushkeys.sh}{script}.
+install\footnote{https://github.com/michaelsevilla/ceph-popper-template/blob/master/hardware/cloudlab/install.sh}
+script. After the nodes finish booting ({\it i.e.}  their status on the
+CloudLab GUI read as READY), users push SSH keys using a convenience
+script\footnote{https://raw.githubusercontent.com/michaelsevilla/ceph-popper-template/master/hardware/cloudlab/pushkeys.sh}.
 
 The deploy code is based on
-\href{https://github.com/ceph/ceph-ansible/wiki}{ceph-ansible}, a tool that
+ceph-ansible\footnote{https://github.com/ceph/ceph-ansible/wiki}, a tool that
 configures hardware and software for Ceph. We forked the project and made it
 less dependent on Python. To run an experiment, users log in into the head node
 and clone the ceph-popper-template. This repository has submodules that point
@@ -67,9 +133,9 @@ to ceph-ansible and our own custom roles; configuration files for our Ceph
 setup; and helper scripts written in bash that deploy Ceph and run the
 benchmarks. An outline of this organization is shown in
 Figure~\ref{fig:expdir}.  For more information, see the
-\href{https://github.com/michaelsevilla/ceph-popper-template}{README}. For more
-information on the baseline and pipelines terminology, read more on the
-\href{http://falsifiable.us/}{Popper Convention}. Then users configure their
+README\footnote{https://github.com/michaelsevilla/ceph-popper-template}. For
+more information on the baseline and pipelines terminology, read more on the
+Popper Convention \footnote{http://falsifiable.us/}. Then users configure their
 cluster by specificing IPs and user names in the \texttt{hosts} file. 
 
 \begin{figure}[tb] 
@@ -85,7 +151,7 @@ experiments, as indicated by the dashed lines.}
 
 
 Finally, users specify the Ceph services that should be deployed using the
-\href{https://github.com/michaelsevilla/ceph-popper-template/tree/master/pipelines/baseline/ansible}{\texttt{ansible/}}
+\texttt{ansible/}\footnote{https://github.com/michaelsevilla/ceph-popper-template/tree/master/pipelines/baseline/ansible}
 directory. This directory has code for deploying Ceph and its components:
 \texttt{ansible.cfg}, \texttt{ceph.yml}, \texttt{cleanup.yml},
 \texttt{group\_vars}, \texttt{monitor.yml}, and \texttt{workloads}. The *.yml
@@ -103,56 +169,21 @@ file is heavily commented. For CloudLab, uncomment all blocks labeled
 ``Uncomment for CloudLab".
 
 To configure the Ceph cluster with the variables in the Ceph configuration file
-\href{http://docs.ceph.com/docs/jewel/rados/configuration/ceph-conf/}{documentation},
+documentation
+\footnote{http://docs.ceph.com/docs/jewel/rados/configuration/ceph-conf/},
 change the Ansible \texttt{group\_vars/all} file. We also need to specify the
 Docker image. These can be specified in each configuration file for the daemon
 but for simplicity we put everything in the global variable file. Finally,
 users run the \texttt{run.sh} script. 
 
-%% describe paper repository
-%As an example, we use our Cudele publication~\cite{sevilla:ipdps18-cudele}. 
-%
-%
-%\noindent \textbf{Paper Directory}: The
-%\href{https://github.com/systemslab/cudele-popper/tree/master/paper}{paper
-%directory} houses figures, bibliography, and \LaTeX source code. We use a
-%common
-%\href{https://github.com/michaelsevilla/biblio/tree/ee5f0d6744945fbcc5ddeaf8f5dbb86e1b8f8353}
-%{bibliography} across papers, maintained in a separate repository so we have a
-%submodule linked. The
-%\href{https://github.com/systemslab/cudele-popper/blob/master/paper/build.sh}{build}
-%script launches a \LaTeX Docker container and builds the PDF; different PDF
-%versions, including our revisions and rebuttals can also be found in this
-%`paper` directory.\\
-%
-%\noindent \textbf{Experiment Directory}: The
-%\href{https://github.com/systemslab/cudele-popper/tree/master/experiments}{experiment
-%directory} has all the experimental setup scripts, results, and visualizations.
-%For example, the
-%\href{https://github.com/systemslab/cudele-popper/tree/master/experiments/cudele-mergescale}{merge
-%scale} experiment, in addition to the Popper \texttt{*.sh} script, has the
-%following directories:
-%
-%\begin{itemize}
-%  \item \texttt{ansible/}: experiment-specific deploy and benchmarking code, written in Ansible
-%  \item \texttt{configs\_*/}: configuration code for CloudLab and our internal cluster named Piha.
-%  \item \texttt{docker/}: experiment-specific images for housing and distributing source code
-%  \item \texttt{results-*/}: results produced by the \texttt{run.sh} script
-%  \item \texttt{visualize/}: Jupyter notebooks for viewing and interacting with results`
-%\end{itemize}
-%
-%The actual workflow is shown in Figure~\ref{}. Users change to the directory,
-%configure their cluster (using hte \texttt{configs\_*/} directory and
-%\texttt{hosts} )
-
-% degrees of popperization
-
 \section{Popper Best Practices}
+\label{popper-best-practices}
 
 To produce Popper-compliant papers, we needed to change our workflows and
 experimental procedures. We have learned the following lessons:
 
 \subsection{Reproducibility Must Be a 1st Class Citizen}
+\label{sec:repro}
 
 % exploration vs. complete
 Popper-compliance must be observed {\it throughout} the paper-writing process.
@@ -260,19 +291,69 @@ CloudLab repository to house our base images. Again, the recommended solution
 for maintaining this complicated web of registry hubs is to thoroughly document
 the process.
 
+\subsection{Baselines}
+% can't always have our own cluster
+% continuous integration is hard
+% baselines take time 
 
 \section{Community Cooperation}
+\label{sec:community-cooperation}
+
+We have shown and described reproducibility pitfalls, but equally important is
+community buy-in. Next, we outline practices that have been detrimental to our
+Popper-compliance initiatives.
 
 \subsection{Conference Requirements}
-% double blinded; in fact, we should expose reviewer names to further communication
+
+% double blinded; multiple revision rounds
+The most common obstacle to our Popper-compliance efforts is double blinded
+submissions. The process is a burden, as we must create anonymous repositories
+and remove graph artifacts, but also blocks communication between researchers
+and reviewers. Providing evidence that the experiments work confidently gives
+credence to the experiment and allows reviewers the chance to examine
+experiment parameters more closely. We go a step further and propose removing
+all anonymity from the review process, facilitating a communication channel
+between researchers and reviewers with the sole intent of improving the quality
+of the paper. We applaud efforts of SC'18, IPDPS'18, and ASPLOS'18 as they move
+towards this approach with multiple revision rounds, but argue for more
+transparent review processes. We are encouraged that in the review of the
+Cudele paper, one of the reviewers specifically asked for source code and
+reproducibility artifacts; at that point, we gladly made Popper source links
+available.
+
 % clear definition of reproducibility, replicability, and open source
-% multiple revision rounds
-% reducing the shame of quick experimental results
+A second obstacle is that many conferences lack a clear definition of
+reproducibility and replicability, which confuses submitters and reviewers
+alike. One conference we were rejected from had reviewers that posited that our
+paper reproducibility artifacts were out of scope while the submission website
+clearly had our definition of reproducibility. This confusion is frustrating
+and can lead to contentious reviews and rebuttals To remedy the situation, we
+recommend emphasizing reproducibility initiatives to reviewers, even going as
+far as to reward papers that have clearly thought about reproducibility.
 
 \subsection{Industry/Laboratory Requirements}
+\label{sec:reqs}
+
 % private/propriety systems --> open architectures
+We understand the monetary incentives to propriety systems but working with
+code in these environments severely hampers our ability to make papers
+Popper-compliant. Our experience in industry, which is by no means
+representative of other companies, was to keep all code repositories private.
+Furthermore, many companies have multiple repositories because development
+teams like using version control systems ({\it e.g.}, git or svn) and hosting
+services ({\it e.g.}, GitHub, GitLab, etc.) that they are familiar with. In
+larger companies that acquire startups, this is a big problem as every group of
+injected developers brings new ways of managing code.  Obviously, this makes
+Popper-compliance impossible, except in a general sense.  We recommend that
+companies adopt a unified version control system and make it public.
+
 % support from upper level management for this process
-% moving away from quick money grabs; follow the open source model to write good code
-% single repository hubs per organization; no password protections!
+Another obstacle to Popper-compliance is security. Many systems in national
+laboratories require clearance and access is only granted to US citizens. In
+fact, many systems are not even connected to the internet to discourage contact
+with the outside world. While laboratories are expected to be research havens,
+their priorities are obviously security over open research practices.
 
 \section{Conclusion}
+
+We have 
