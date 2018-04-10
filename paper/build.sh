@@ -9,7 +9,7 @@ docker run --rm \
   --name latex \
   --entrypoint=/bin/bash \
   -v `pwd`/:/mnt \
-  michaelsevilla/texlive:latest -c \
+  michaelsevilla/texlive:acm-master -c \
     "cd /mnt ; \
      pdflatex -synctex=1 -interaction=nonstopmode -shell-escape paper; \
      bibtex paper; \
