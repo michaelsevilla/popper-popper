@@ -90,7 +90,7 @@ productivity in early papers; designing best practices that address these
 pitfalls before starting the project saved us time and effort in subsequent
 Popper-compliant papers (Section~\S\ref{popper-best-practices}).
 
-  \item a call to arms for the downfall of practices that fly in the face of
+  \item a call-to-arms for the downfall of practices that fly in the face of
 Popper-compliance. We highlight difficulties with academic conferences, work at
 national laboratories, and work in industry because that is where we have the
 most experience (Section~\S\ref{sec:community-cooperation}).
@@ -100,7 +100,7 @@ most experience (Section~\S\ref{sec:community-cooperation}).
 We give each of our paper repositories a status using the convention
 in~\cite{jimenez:rr18-popper}: GOLD means that results are fully reproducible,
 PASS means the experiments will run, and FAIL means that experiments are not
-guaranteed to execute A FAIL status is still Popper-compliant because
+guaranteed to execute. A FAIL status is still Popper-compliant because
 experiment artifacts and results are available.  Over time, our Popper status
 has improved from PASS to GOLD because we were able to shape our best practices
 from our observed pitfalls. We also learned that going back and making
@@ -108,7 +108,7 @@ published papers Popper-compliant is too difficult and is not incentivized, as
 described in Section~\S\ref{sec:repro}. The one FAIL status we have can be
 attributed to security issues we had working at a national laboratory, as
 described in more detail in Section~\S\ref{sec:reqs}. It is our hope that the
-pitfalls stumbled over can be used as a best practices guide for future
+pitfalls we stumbled over can be used as a best practices guide for future
 articles.
 
 \section{Popper-compliant Papers}
@@ -129,7 +129,7 @@ experiment orchestration. For the data set components (4), we use GitHub to
 store results files; our inputs and results are small enough that we do no need
 a larger capacity.  GitHub allows files up to 50MB and stores data on S3.
 
-Our experiments start with a baseline; to describe the process, we reference
+Our experiments start with a baseline. To describe the process, we reference
 our
 ceph-popper-template\footnote{https://github.com/michaelsevilla/ceph-popper-template}
 set up on CloudLab. Users setup SSH keys and deploy CloudLab nodes using our
@@ -137,7 +137,7 @@ CephFS Profile\footnote{https://www.cloudlab.us/p/CephFS/CephFS-HEP}.  The
 profile has the nodes automatically install Docker on bootup using our
 install\footnote{https://github.com/michaelsevilla/ceph-popper-template/blob/master/hardware/cloudlab/\-install.sh}
 script. After the nodes finish booting ({\it i.e.}  their status on the
-CloudLab GUI read as READY), users push SSH keys using a convenience
+CloudLab GUI is READY), users push SSH keys using a convenience
 script\footnote{https://raw.githubusercontent.com/michaelsevilla/ceph-popper-template/master/hardware/cloudlab/pushkeys.sh}.
 
 The deploy code is based on
@@ -164,21 +164,25 @@ experiments, as indicated by the dashed lines.}
 
 An outline of this organization is shown in Figure~\ref{fig:expdir}, where
 solid lines are directory links and dashed lines indicate which directories a
-script uses.  Users configure their cluster by specifying hostnames and login
-user names in the \texttt{hosts} file.  Users also specify the Ceph services
-that should be deployed using the \texttt{ansible/}
+script uses.  A sample experiment is in the \texttt{baseline/} directoriy,
+which was created using the Popper CLI. Users configure their cluster by
+specifying hostnames and login user names in the \texttt{hosts} file.  Users
+also specify the Ceph services that should be deployed using the
+\texttt{ansible/}
 directory\footnote{https://github.com/michaelsevilla/ceph-popper-template/tree/master/pipelines/baseline/ansible}.
 This directory has code for deploying Ceph and its components, where the
 \texttt{*.yml} files are Ansible playbooks that start and configure components:
 \texttt{ceph.yml} starts Ceph and can be modified to specify which daemons to
 launch, \texttt{cleanup.yml} tears Ceph down, and \texttt{monitor.yml} starts
 daemons that monitor performance.  High level configurations are in the
-\texttt{vars.yml}.  We separate these components into different playbooks so
-users can mix and match Ceph services.  Similarly, the workloads directory has
-scripts for running the baseline benchmarks. The other files and directories
-are Ansible configuration files used by the playbooks. We have posted a
-tutorial on our blog\footnote{http://programmability.us/mantle/blog2-ceph} to
-guide users through this setup.
+\texttt{vars.yml} file.  We separate these components into different playbooks
+so users can mix and match Ceph services.  Similarly, the workloads directory
+has scripts for running the baseline benchmarks. The other files and
+directories are Ansible configuration files used by the playbooks. We have
+posted a tutorial on our
+blog\footnote{http://programmability.us/mantle/blog2-ceph} to guide users
+through this setup. When complete, users execute the \texttt{run.sh} to start
+the job.
 
 \section{Popper Pitfalls}
 \label{popper-best-practices}
@@ -196,17 +200,17 @@ Attempts to make published papers Popper-compliant failed for three reasons:
 hard to remember the experimental workflow, and (3) the artifacts cannot be
 added to the camera-ready article. We started trying to
 make~\cite{sevilla:sc15-mantle}
-Popper-compliant~\footnote{https://github.com/michaelsevilla/mds} but gave up
+Popper-compliant\footnote{https://github.com/michaelsevilla/mds} but gave up
 because the effort would not have been rewarded, as the paper had already been
 presented and published.
 
-Making reproducibility a first class citizen introduces a careful design
+Making reproducibility a 1st class citizen introduces a careful design
 decision: how does the user decide which results are exploratory and which are
 complete. We do not want to waste space by saving results that do not
 contribute to the paper but, at the same time, how do we know when an
 experiment is worthy of being included in the paper? Discipline must be
-exercised throughout the paper-writing process to make any experiment that we
-find useful must be immediately polished to be Popper-compliant.
+exercised throughout the paper-writing process to make any experiment that is
+deemed useful be immediately polished to be Popper-compliant.
 
 % cross-cluster compatibility 
 Another pitfall we face is cross-cluster compatibility. After identifying
@@ -247,15 +251,14 @@ organically and quickly in the style approved by the first author.
 
 % merge conflicts
 Another obstacle to collaboration is merge conflicts, especially when editing
-the paper. We used to assign locks to people in an {\it ad hoc} fashion over
-email; this is not scalable. Instead, we now use Git to manage conflicts.
+the paper. We used to assign locks to people in an {\it ad-hoc} fashion over
+email but this is not scalable. Instead, we now use Git to manage conflicts.
 Before issuing a pull request, which notifies the first author, GitHub will
 notify committers of changes they made in parallel with other changes. Our
 policy is to force committers to resolve these merge conflicts before bothering
-the first the author. While we still recommend issuing pull requests to make
-sure the first author approves of the style, the merge conflict workflow has
-been an effective way to avoid annoying the first author with destructive
-changes.
+the first author. While we still recommend issuing pull requests to make sure
+the first author approves of the style, the merge conflict workflow has been an
+effective way to avoid annoying the first author with destructive changes.
 
 \subsection{Failure to Maintain Pointers}
 
@@ -271,7 +274,7 @@ Ephemeral links and making sure that pointers are live is our biggest pain
 point. Small, seemingly benign changes end up confusing users wanting to
 reproduce our results. This is an artifact of how the internet was built, but
 making sure that these links are live is one of the hardest challenges for
-Popper-compliancy. To combat this, we suggest maintaining continuous
+Popper-compliance. To combat this, we suggest maintaining continuous
 integration pipelines that read the paper source code and send REST requests to
 websites to ensure that 404 codes are not returned.
 
@@ -318,27 +321,27 @@ Popper-compliance initiatives.
 The most common obstacle to our Popper-compliance efforts is double blinded
 submissions. The process is a burden, as we must create anonymous repositories
 and remove graph artifacts, but also blocks communication between researchers
-and reviewers. Providing evidence that the experiments work confidently gives
-credence to the experiment and allows reviewers the chance to examine
-experiment parameters more closely. We go a step further and propose removing
-all anonymity from the review process, facilitating a communication channel
-between researchers and reviewers with the sole intent of improving the quality
-of the paper. We applaud efforts of SC'18, IPDPS'18, and ASPLOS'18 as they move
-towards this approach with multiple revision rounds, but argue for more
-transparent review processes. We are encouraged that in the review of one of
-our papers, one of the reviewers specifically asked for source code and
-reproducibility artifacts; at that point, we gladly made Popper source links
-available.
+and reviewers. Providing evidence that the experiments work gives credence to
+the experiment and allows reviewers the chance to examine experiment parameters
+more closely. We go a step further and propose removing all anonymity from the
+review process, facilitating a communication channel between researchers and
+reviewers with the sole intent of improving the quality of the paper. We the
+applaud efforts of SC'18, IPDPS'18, and ASPLOS'18 as they move towards this
+approach with multiple revision rounds, but argue for more transparent review
+processes. We are encouraged that in the review of one of our papers, a reader
+specifically asked for source code and reproducibility artifacts; at that
+point, we gladly made Popper source links available.
 
 % clear definition of reproducibility, replicability, and open source
 A second obstacle is that many conferences lack a clear definition of
-reproducibility and replicability, which confuses submitters and reviewers
-alike. One conference we were rejected from had reviewers that posited that our
-paper reproducibility artifacts were out of scope while the submission website
-clearly had our definition of reproducibility. This confusion is frustrating
-and can lead to contentious reviews and rebuttals. To remedy the situation, we
-recommend emphasizing reproducibility initiatives to reviewers, even going as
-far as to reward papers that have clearly thought about reproducibility.
+reproducibility and replicability, which confuses both submitters and
+reviewers. One conference we submitted to had reviewers that posited that
+our paper reproducibility artifacts were out of scope while the submission
+website clearly had our definition of reproducibility. This confusion is
+frustrating and can lead to contentious reviews and rebuttals. To remedy the
+situation, we recommend emphasizing reproducibility initiatives to reviewers,
+even going as far as to reward papers that have clearly thought about
+reproducibility.
 
 \subsection{Industry/Laboratory Requirements}
 \label{sec:reqs}
@@ -348,7 +351,7 @@ We understand the monetary incentives to propriety systems but working with
 code in these environments severely hampers our ability to make papers
 Popper-compliant.  Some companies in industry keep all code repositories
 private.  Furthermore, many companies have multiple repositories because
-development teams like using version control systems ({\it e.g.}, Git or svn)
+development teams like using version control systems ({\it e.g.}, Git or SVN)
 and hosting services ({\it e.g.}, GitHub, GitLab, etc.) that they are familiar
 with. In larger companies that acquire startups, this is a big problem as every
 group of injected developers brings new ways of managing code.  Obviously, this
@@ -368,7 +371,7 @@ We have outlined the structure of our Popper-compliant papers and showed the
 complexity of a reproducible experiment. We iterated to a Popper-compliant
 paper-writing process after encountering numerous pitfalls, which we have
 documented and used to shape our best practices. While our process will never
-be perfect, we are encouraged with improved speed and ease that our research
+be perfect, we are encouraged with the improved speed and ease that our research
 progresses now that we have: (1) made reproducibility a 1st class citizen, (2)
 defined collaboration rules, and (3) made it a priority to maintain pointers.
 We hope that our call-to-arms for community cooperation effectively improves
