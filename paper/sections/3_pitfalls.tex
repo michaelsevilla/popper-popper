@@ -64,7 +64,7 @@ combining code from collaborators with pull requests so the repository grows
 organically and quickly in the style approved by the first author.
 
 % merge conflicts
-Another obstacle to collaboration is merge conflicts, especially when editing
+Another obstacle to collaboration is conflicting, especially when editing
 the paper. We used to assign locks to people in an {\it ad-hoc} fashion over
 email but this is not scalable. Instead, we now use Git to manage conflicts.
 Before issuing a pull request, which notifies the first author, GitHub will
@@ -74,6 +74,18 @@ the first author. While we still recommend issuing pull requests to make sure
 the first author approves of the style, the merge conflict workflow has been an
 effective way to avoid annoying the first author with destructive changes.
 
+Git has not totally solved merge conflicts for papers. Papers have long
+sentences and sometimes a paragraph is written on a single line of text,
+without line breaks. Because Git was designed for code, which has many line
+breaks, it is hard to see changes when the document is structured as one long
+line. Adding line breaks partially solves the problem but adds new
+complexities. For example adding small amounts of text may cause lines to
+``spill" onto the next line, so a diff of the commits shows the entire
+paragraph as being changed. Similarly, users with different line break
+thresholds might re-arrange paragraphs differently, leading to the same
+problem. If Git or GitHub were to recognize that these source files were
+\LaTeX, the visual problems could be mitigated.
+
 \subsection{Failure to Maintain Pointers}
 
 Popper-compliant papers provide pointers to graph artifacts, including results,
@@ -81,7 +93,12 @@ input files, and deploy code. But these links are problematic because they must
 be maintained over time, even years after the paper is published. We have had
 trouble maintaining these pointers because they (1) are ephemeral, (2) include
 pointers to other repositories, and (3) include pointers to different
-repository hosting sites.
+repository hosting sites. These problems arise because we are using GitHub and
+DockerHub as archival tools. Moving artifacts to a proper archival system (with
+long term storage and proper labeling semantics like DOIs) may be an option in
+the future, but GitHub works much better for research and exploration. Choosing
+between these options is a trade-off we have to make because there is no easy
+way for turning an exploration platform like GitHub into an archival system.
 
 %wary of ephemeral links
 Ephemeral links and making sure that pointers are live is our biggest pain
