@@ -1,0 +1,67 @@
+\section{Community Cooperation}
+\label{sec:community-cooperation}
+
+We have shown and described reproducibility pitfalls, but equally important is
+community buy-in. Next, we outline practices that have been detrimental to our
+Popper-compliance initiatives.
+
+\subsection{Conference Requirements}
+
+% double blinded; multiple revision rounds
+The most common obstacle to our Popper-compliance efforts is double blinded
+submissions. The process is a burden, as we must create anonymous repositories
+and remove graph artifacts, but also blocks communication between researchers
+and reviewers. Providing evidence that the experiments work gives credence to
+the experiment and allows reviewers the chance to examine experiment parameters
+more closely. We go a step further and propose removing all anonymity from the
+review process, facilitating a communication channel between researchers and
+reviewers with the sole intent of improving the quality of the paper. We the
+applaud efforts of SC'18, IPDPS'18, and ASPLOS'18 as they move towards this
+approach with multiple revision rounds, but argue for more transparent review
+processes. We are encouraged that in the review of one of our papers, a reader
+specifically asked for source code and reproducibility artifacts; at that
+point, we gladly made Popper source links available.
+
+% clear definition of reproducibility, replicability, and open source
+A second obstacle is that many conferences lack a clear definition of
+reproducibility and replicability, which confuses both submitters and
+reviewers. One conference we submitted to had reviewers that posited that
+our paper reproducibility artifacts were out of scope while the submission
+website clearly had our definition of reproducibility. This confusion is
+frustrating and can lead to contentious reviews and rebuttals. To remedy the
+situation, we recommend emphasizing reproducibility initiatives to reviewers,
+even going as far as to reward papers that have clearly thought about
+reproducibility.
+
+\subsection{Industry/Laboratory Requirements}
+\label{sec:reqs}
+
+% private/propriety systems --> open architectures
+We understand the monetary incentives to propriety systems but working with
+code in these environments severely hampers our ability to make papers
+Popper-compliant.  Some companies in industry keep all code repositories
+private.  Furthermore, many companies have multiple repositories because
+development teams like using version control systems ({\it e.g.}, Git or SVN)
+and hosting services ({\it e.g.}, GitHub, GitLab, etc.) that they are familiar
+with. In larger companies that acquire startups, this is a big problem as every
+group of injected developers brings new ways of managing code.  Obviously, this
+makes Popper-compliance impossible, except in a general sense.  
+
+We urge companies in industry to adopt a public, unified version control system
+and to provide reproducibility artifacts. Obviously, industry entities have
+very little incentive to do this. To incentivize this process for industry, we
+suggest that conferences provide recognition, either monetary or award-based,
+to companies that adopt this philosophy.
+
+% support from upper level management for this process
+Another obstacle to Popper-compliance is security. Many systems in national
+laboratories require clearance and access is only granted to US citizens. In
+fact, many systems are not even connected to the internet to discourage contact
+with the outside world. While laboratories are expected to be research havens,
+their priorities are obviously security over open research practices. We
+recommend evangelizing reproducibility in these communities in the hopes of
+appointing ``reproducibility officers" that are internal to the national
+laboratories. These officers would have the security clearance to operate large
+HPC clusters and the expertise to verify the reproducibility of a paper's
+artifacts and performance claims.
+
