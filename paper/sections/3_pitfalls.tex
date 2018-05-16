@@ -20,11 +20,11 @@ presented and published.
 
 Making reproducibility a 1st class citizen introduces a careful design
 decision: how does the user decide which results are exploratory and which are
-complete. We do not want to waste space by saving results that do not
+complete? We do not want to waste space by saving results that do not
 contribute to the paper but, at the same time, how do we know when an
 experiment is worthy of being included in the paper? Discipline must be
-exercised throughout the paper-writing process to make any experiment that is
-deemed useful be immediately polished to be Popper-compliant.
+exercised throughout the paper-writing process to identify useful experiments
+and immediately polish them to be Popper-compliant.
 
 % cross-cluster compatibility 
 Another pitfall we face is cross-cluster compatibility. After identifying
@@ -50,7 +50,7 @@ Popper-compliance and discourages community involvement.
 
 % keeping organization workflows
 Collaboration  speeds up code development and, as stated in the previous
-section, can be used as motivation to keeping Popper-compliant repositories;
+section, can be used as motivation for maintaining Popper-compliant repositories;
 but collaboration can also hamper the process.  Researchers have different
 workflows and preferences. Committing system and experimental deploy code with
 different toolkits, documentation, and styles to the same repository can result
@@ -64,15 +64,16 @@ combining code from collaborators with pull requests so the repository grows
 organically and quickly in the style approved by the first author.
 
 % merge conflicts
-Another obstacle to collaboration is conflicting, especially when editing
-the paper. We used to assign locks to people in an {\it ad-hoc} fashion over
-email but this is not scalable. Instead, we now use Git to manage conflicts.
-Before issuing a pull request, which notifies the first author, GitHub will
-notify committers of changes they made in parallel with other changes. Our
-policy is to force committers to resolve these merge conflicts before bothering
-the first author. While we still recommend issuing pull requests to make sure
-the first author approves of the style, the merge conflict workflow has been an
-effective way to avoid annoying the first author with destructive changes.
+Another obstacle to collaboration is conflicting updates, especially when
+editing the paper. We used to assign locks to people in an {\it ad-hoc} fashion
+over email but this is not scalable. Instead, we now use Git to manage
+conflicts.  Before issuing a pull request, which notifies the first author,
+GitHub will notify committers of changes they made in parallel with other
+changes. Our policy is to force committers to resolve these merge conflicts
+before bothering the first author. While we still recommend issuing pull
+requests to make sure the first author approves of the style, the merge
+conflict workflow has been an effective way to avoid annoying the first author
+with destructive changes.
 
 Git has not totally solved merge conflicts for papers. Papers have long
 sentences and sometimes a paragraph is written on a single line of text,
@@ -95,8 +96,8 @@ trouble maintaining these pointers because they (1) are ephemeral, (2) include
 pointers to other repositories, and (3) include pointers to different
 repository hosting sites. These problems arise because we are using GitHub and
 DockerHub as archival tools. Moving artifacts to a proper archival system (with
-long term storage and proper labeling semantics like DOIs) may be an option in
-the future, but GitHub works much better for research and exploration. Choosing
+long term storage and labeling semantics like DOIs) may be an option in the
+future, but GitHub works much better for research and exploration. Choosing
 between these options is a trade-off we have to make because there is no easy
 way for turning an exploration platform like GitHub into an archival system.
 
